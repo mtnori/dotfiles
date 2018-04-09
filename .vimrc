@@ -97,6 +97,7 @@ if dein#load_state(expand('~/vimfiles/dein'))
 endif
 
 nnoremap <silent><C-e> :NERDTreeToggle<CR>
+let NERDTreeChDirMode = 2
 let g:NERDTreeDirArrowExpandable = '▸'
 let g:NERDTreeDirArrowCollapsible = '▾'
 let g:WebDevIconsUnicodeGlyphDoubleWidth = 0
