@@ -1,0 +1,176 @@
+[[plugins]]
+repo = 'Shougo/dein.vim'
+
+[[plugins]]
+repo = 'cocopon/iceberg.vim'
+
+[[plugins]]
+repo = 'mgee/lightline-bufferline'
+hook_add = '''
+  let g:lightline#bufferline#show_number  = 1
+  let g:lightline#bufferline#shorten_path = 1
+  let g:lightline#bufferline#unnamed      = '[No Name]'
+'''
+
+[[plugins]]
+repo = 'maximbaz/lightline-ale'
+hook_add = '''
+  let g:lightline#ale#indicator_checking = "\uf110"
+  let g:lightline#ale#indicator_warnings = "\uf071"
+  let g:lightline#ale#indicator_errors = "\uf05e"
+  let g:lightline#ale#indicator_ok = "\uf00c"
+'''
+
+[[plugins]]
+repo = 'itchyny/lightline.vim'
+hook_add = '''
+  let g:lightline = {
+    \'colorscheme' : 'iceberg',
+    \'active': {
+    \  'left': [ [ 'mode', 'paste' ],
+    \            [ 'fugitive', 'readonly', 'filename', 'modified' ] ],
+    \  'right': [
+    \             [ 'linter_checking', 'linter_errors', 'linter_warnings', 'linter_ok' ],
+    \             [ 'lineinfo', 'percent' ],
+    \             [ 'fileformat', 'fileencoding', 'filetype' ]
+    \           ]
+    \},
+    \'component_function' : {
+    \  'fugitive' : 'LightLineFugitive',
+    \  'filetype' : 'LightLineFiletype',
+    \  'fileformat' : 'LightLineFileformat'
+    \},
+    \'separator': { 'left': "\ue0b0", 'right': "\ue0b2" },
+    \'subseparator': { 'left': "\ue0b1", 'right': "\ue0b3" },
+    \'tabline' : {'left': [['buffers']], 'right': [['close']]},
+    \'component_expand' : {
+    \  'buffers': 'lightline#bufferline#buffers',
+    \  'linter_checking': 'lightline#ale#checking',
+    \  'linter_warnings': 'lightline#ale#warnings',
+    \  'linter_errors': 'lightline#ale#errors',
+    \  'linter_ok': 'lightline#ale#ok'
+    \},
+    \'component_type' : {
+    \  'buffers': 'tabsel',
+    \  'linter_checking': 'left',
+    \  'linter_warnings': 'warning',
+    \  'linter_errors': 'error',
+    \  'linter_ok': 'left'
+    \}
+  \}
+
+  function! LightLineFugitive()
+    if exists("*fugitive#head")
+      let _ = fugitive#head()
+      return strlen(_) ? ''._ : ''
+    endif
+    return ''
+  endfunction
+
+  function! LightLineFiletype()
+    return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype . ' ' . WebDevIconsGetFileTypeSymbol() : 'no ft') : ''
+  endfunction
+
+  function! LightLineFileformat()
+    return winwidth(0) > 70 ? (&fileformat . ' ' . WebDevIconsGetFileFormatSymbol()) : ''
+  endfunction
+'''
+
+[[plugins]]
+repo = 'ryanoasis/vim-devicons'
+hook_add = '''
+  let g:WebDevIconsUnicodeGlyphDoubleWidth = 0
+  let g:WebDevIconsUnicodeDecorateFolderNodes = 1
+'''
+
+[[plugins]]
+repo = 'tiagofumo/vim-nerdtree-syntax-highlight'
+
+[[plugins]]
+repo = 'scrooloose/nerdtree'
+hook_add = '''
+  nnoremap <silent><C-e> :NERDTreeToggle<CR>
+  let NERDTreeChDirMode = 2
+  let g:NERDTreeDirArrowExpandable = '▸'
+  let g:NERDTreeDirArrowCollapsible = '▾'
+  let g:DevIconsEnableFoldersOpenClose = 1
+  let g:webdevicons_conceal_nerdtree_brackets = 1
+'''
+
+[[plugins]]
+repo = 'w0rp/ale'
+hook_add = '''
+  let g:ale_linters = {
+    \ 'javascript': ['eslint']
+    \ }
+  let g:ale_fixers = {
+    \ 'javascript': ['eslint']
+    \ }
+  let g:ale_lint_on_text_changed = 1
+  let g:ale_lint_on_save = 1
+  let g:ale_fix_on_save = 1
+  let g:ale_lint_delay = 500
+'''
+
+[[plugins]]
+repo = 'nathanaelkane/vim-indent-guides'
+
+[[plugins]]
+repo = 'bronson/vim-trailing-whitespace'
+
+[[plugins]]
+repo = 'honza/vim-snippets'
+
+[[plugins]]
+repo = 'Shougo/neosnippet-snippets'
+
+[[plugins]]
+repo = 'Shougo/neosnippet.vim'
+hook_add = '''
+  imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+  smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+  xmap <C-k>     <Plug>(neosnippet_expand_target)
+
+  imap <expr><TAB>
+  \ pumvisible() ? "\<C-n>" :
+  \ neosnippet#expandable_or_jumpable() ?
+  \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+  smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+  \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+
+  if has('conceal')
+    set conceallevel=3 concealcursor=niv
+  endif
+  let g:neosnippet#enable_snipmate_compatibility = 1
+'''
+
+[[plugins]]
+repo = 'Shougo/deoplete.nvim'
+hook_add = '''
+  let g:deoplete#enable_at_startup = 1
+  let g:deoplete#file#enable_buffer_path = 1
+'''
+
+[[plugins]]
+repo = 'tpope/vim-fugitive'
+
+[[plugins]]
+repo = 'cohama/lexima.vim'
+
+[[plugins]]
+repo = 'Shougo/vimproc.vim'
+hook_post_update = '''
+  if dein#util#_is_windows()
+    let cmd = 'tools\\update-dll-mingw'
+  elseif dein#util#_is_cygwin()
+    let cmd = 'make -f make_cygwin.mak'
+  elseif executable('gmake')
+    let cmd = 'gmake'
+  else
+    let cmd = 'make'
+  endif
+  let g:dein#plugin.build = cmd
+'''
+
+[[plugins]]
+repo = 'cespare/vim-toml'

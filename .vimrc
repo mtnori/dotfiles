@@ -64,7 +64,7 @@ if dein#load_state(expand('~/vimfiles/dein'))
   call dein#add('ryanoasis/vim-devicons')
   call dein#add('scrooloose/nerdtree')
   call dein#add('tiagofumo/vim-nerdtree-syntax-highlight')
-  call dein#add('Xuyuanp/nerdtree-git-plugin')
+ " call dein#add('Xuyuanp/nerdtree-git-plugin')
   call dein#add('othree/yajs.vim')
   call dein#add('othree/html5.vim')
   call dein#add('othree/javascript-libraries-syntax.vim')
@@ -72,6 +72,7 @@ if dein#load_state(expand('~/vimfiles/dein'))
   call dein#add('maxmellon/vim-jsx-pretty')
   call dein#add('ujihisa/unite-colorscheme')
   call dein#add('nanotech/jellybeans.vim')
+  call dein#add('cocopon/iceberg.vim')
   call dein#add('cohama/lexima.vim')
   call dein#add('itchyny/lightline.vim')
   call dein#add('mgee/lightline-bufferline')
@@ -92,9 +93,21 @@ if dein#load_state(expand('~/vimfiles/dein'))
   endif
   call dein#add('tpope/vim-fugitive')
   call dein#add('hail2u/vim-css3-syntax')
+  call dein#add('elmcast/elm-vim')
   call dein#end()
   call dein#save_state()
 endif
+
+" Elm
+let g:elm_jump_to_error = 0
+let g:elm_make_output_file = "elm.js"
+let g:elm_make_show_warnings = 0
+let g:elm_syntastic_show_warnings = 0
+let g:elm_browser_command = ""
+let g:elm_detailed_complete = 0
+let g:elm_format_autosave = 1
+let g:elm_format_fail_silently = 0
+let g:elm_setup_keybindings = 1
 
 nnoremap <silent><C-e> :NERDTreeToggle<CR>
 let NERDTreeChDirMode = 2
@@ -174,7 +187,7 @@ let g:lightline#ale#indicator_warnings = "\uf071"
 let g:lightline#ale#indicator_errors = "\uf05e"
 let g:lightline#ale#indicator_ok = "\uf00c"
 let g:lightline = {
-      \ 'colorscheme' : 'jellybeans',
+      \ 'colorscheme' : 'iceberg',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
       \             [ 'fugitive', 'readonly', 'filename', 'modified' ] ],
@@ -229,19 +242,16 @@ set showtabline=2
 set noshowmode
 
 let g:ale_linters = {
-  \ 'javascript': ['eslint'],
-  \ 'javascript.jsx': ['eslint']
+  \ 'javascript': ['eslint']
   \ }
 let g:ale_fixers = {
-  \ 'javascript': ['eslint'],
-  \ 'javascript.jsx': ['eslint']
+  \ 'javascript': ['eslint']
   \ }
 let g:ale_lint_on_text_changed = 1
-let g:ale_lint_on_save = 0
+let g:ale_lint_on_save = 1
 let g:ale_fix_on_save = 1
 let g:ale_lint_delay = 500
 
-" 'go': ['gometalinter']
 " let g:ale_go_gometalinter_options = '--vendored-linters --disable-all --enable=gotype --enable=vet --enable=golint -t'
 " let g:ale_go_gometalinter_options = '--fast --enable=staticcheck --enable=gosimple --enable=unused'
 
