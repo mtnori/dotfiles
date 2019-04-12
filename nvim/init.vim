@@ -16,7 +16,7 @@ set noswapfile
 " バッファを隠す(?)
 set hidden
 " クリップボードとNeoVimの無名レジスタを一体化
-set clipboard+=unnamedplus
+set clipboard=unnamed,unnamedplus
 " 行番号
 set number
 " 空白文字等、不可視な文字の可視化
@@ -32,10 +32,24 @@ set helplang=ja,en
 nnoremap j gj
 nnoremap k gk
 
-" タブ関連 見ての通り(?)
-set expandtab
-set tabstop=4
-set shiftwidth=4
+" jjでインサートモードから抜ける
+inoremap <silent> jj <ESC>
+
+" 入力モードでのカーソル移動
+inoremap <C-j> <Down>
+inoremap <C-k> <Up>
+inoremap <C-h> <Left>
+inoremap <C-l> <Right>
+
+" 行頭行末間移動(backspace, space, カーソルキー)
+set whichwrap=b,s,h,l,<,>,[,],~
+" カーソルラインをハイライト
+set cursorline
+
+" タブ関連
+set expandtab "タブ入力を空白に変換
+set tabstop=2 "タブを何文字の空白に変換するか
+set shiftwidth=2 "自動インデント時に入力する空白の数
 
 " 検索関連
 " 大文字と小文字を区別しない
@@ -47,15 +61,15 @@ set wrapscan
 " Esc連打でハイライト解除
 nmap <Esc><Esc> :nohlsearch<CR><Esc>
 
-" 行頭行末間移動(backspace, space, カーソルキー)
-set whichwrap=b,s,<,>,[,]
-
 " Shift+Enterで上に、Shift+Ctrl+Enterで下に空行を追加(GUI用)
 imap <S-CR> <End><CR>
 imap <C-S-CR> <Up><End><CR>
 
 nnoremap <S-CR> mzo<ESC>`z
 nnoremap <C-S-CR> mzO<ESC>`z
+
+" スクロール送りを開始する前後の行数を指定
+set scrolloff=5
 
 " ペースト時のインデントのズレを防ぐ(https://qiita.com/kqt0k0/items/bcfa84c5f85276315954)
 if &term =~ "xterm"
