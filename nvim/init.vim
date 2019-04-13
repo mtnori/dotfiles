@@ -36,10 +36,10 @@ nnoremap k gk
 inoremap <silent> jj <ESC>
 
 " 入力モードでのカーソル移動
-inoremap <C-j> <Down>
-inoremap <C-k> <Up>
-inoremap <C-h> <Left>
-inoremap <C-l> <Right>
+"inoremap <C-j> <Down>
+"inoremap <C-k> <Up>
+"inoremap <C-h> <Left>
+"inoremap <C-l> <Right>
 
 " 行頭行末間移動(backspace, space, カーソルキー)
 set whichwrap=b,s,h,l,<,>,[,],~
@@ -118,57 +118,110 @@ let g:markdown_fenced_languages = [
 \ 'vim'
 \]
 
-"dein Scripts-----------------------------
-if &compatible
-  set nocompatible               " Be iMproved
-endif
+call plug#begin('~/.config/nvim/plugged')
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+Plug 'cocopon/iceberg.vim'
+Plug 'mgee/lightline-bufferline'
+Plug 'maximbaz/lightline-ale'
+Plug 'itchyny/lightline.vim'
+Plug 'ryanoasis/vim-devicons'
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+Plug 'w0rp/ale'
+Plug 'nathanaelkane/vim-indent-guides'
+Plug 'bronson/vim-trailing-whitespace'
+Plug 'tpope/vim-fugitive'
+Plug 'othree/yajs.vim', { 'for': ['js', 'jsx'] }
+Plug 'othree/html5.vim', { 'for': ['html', 'js', 'jsx'] }
+Plug 'othree/javascript-libraries-syntax.vim', { 'for': ['js', 'jsx'] }
+Plug 'othree/es.next.syntax.vim', { 'for': ['js', 'jsx'] }
+Plug 'maxmellon/vim-jsx-pretty', { 'for': ['js', 'jsx'] }
+Plug 'fatih/vim-go', { 'for': 'go' }
+Plug 'rcmdnk/vim-markdown', { 'for': ['md', 'markdown'] }
+call plug#end()
 
-" プラグインがインストールされるディレクトリ
-let s:dein_dir = expand('~/.cache/dein')
-" dein.vim 本体
-let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
-
-" Required:
-" dein.vim がなければ github から落としてくる
-if &runtimepath !~# '/dein.vim'
-  if !isdirectory(s:dein_repo_dir)
-    execute '!git clone https://github.com/Shougo/dein.vim' s:dein_repo_dir
-  endif
-  execute 'set runtimepath+=' . fnamemodify(s:dein_repo_dir, ':p')
-endif
-
-" Required:
-if dein#load_state(s:dein_dir)
-  call dein#begin(s:dein_dir)
-
-  " Let dein manage dein
-  " Required:
-  "call dein#add('C:\Users\noriyuki\.cache\dein\repos\github.com\Shougo\dein.vim')
-
-  " プラグインリストを収めた TOML ファイル
-  " 予め TOML ファイルを用意しておく
-  let g:rc_dir    = expand("~/.config/nvim/")
-  let s:toml      = g:rc_dir . '/dein.toml'
-  let s:lazy_toml = g:rc_dir . '/dein_lazy.toml'
-
-  " TOML を読み込み、キャッシュしておく
-  call dein#load_toml(s:toml,      {'lazy': 0})
-  call dein#load_toml(s:lazy_toml, {'lazy': 1})
-
-  " Required:
-  call dein#end()
-  call dein#save_state()
-endif
-
-" Required:
 filetype plugin indent on
 syntax enable
-"End dein Scripts-------------------------
 
-"" もし、未インストールものものがあったらインストール
-if dein#check_install()
-  call dein#install()
-endif
+let g:lightline#bufferline#show_number  = 1
+let g:lightline#bufferline#shorten_path = 1
+let g:lightline#bufferline#unnamed      = '[No Name]'
+
+let g:lightline#ale#indicator_checking = "\uf110"
+let g:lightline#ale#indicator_warnings = "\uf071"
+let g:lightline#ale#indicator_errors = "\uf05e"
+let g:lightline#ale#indicator_ok = "\uf00c"
+
+let g:lightline = {
+  \'colorscheme' : 'iceberg',
+  \'active': {
+  \  'left': [ [ 'mode', 'paste' ],
+  \            [ 'fugitive', 'readonly', 'filename', 'modified' ] ],
+  \  'right': [
+  \             [ 'linter_checking', 'linter_errors', 'linter_warnings', 'linter_ok' ],
+  \             [ 'lineinfo', 'percent' ],
+  \             [ 'fileformat', 'fileencoding', 'filetype' ]
+  \           ]
+  \},
+  \'component_function' : {
+  \  'fugitive' : 'LightLineFugitive',
+  \  'filetype' : 'LightLineFiletype',
+  \  'fileformat' : 'LightLineFileformat'
+  \},
+  \'separator': { 'left': "\ue0b0", 'right': "\ue0b2" },
+  \'subseparator': { 'left': "\ue0b1", 'right': "\ue0b3" },
+  \'tabline' : {'left': [['buffers']], 'right': [['close']]},
+  \'component_expand' : {
+  \  'buffers': 'lightline#bufferline#buffers',
+  \  'linter_checking': 'lightline#ale#checking',
+  \  'linter_warnings': 'lightline#ale#warnings',
+  \  'linter_errors': 'lightline#ale#errors',
+  \  'linter_ok': 'lightline#ale#ok'
+  \},
+  \'component_type' : {
+  \  'buffers': 'tabsel',
+  \  'linter_checking': 'left',
+  \  'linter_warnings': 'warning',
+  \  'linter_errors': 'error',
+  \  'linter_ok': 'left'
+  \}
+\}
+
+function! LightLineFugitive()
+  if exists("*fugitive#head")
+    let _ = fugitive#head()
+    return strlen(_) ? ''._ : ''
+  endif
+  return ''
+endfunction
+
+function! LightLineFiletype()
+  return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype . ' ' . WebDevIconsGetFileTypeSymbol() : 'no ft') : ''
+endfunction
+
+function! LightLineFileformat()
+  return winwidth(0) > 70 ? (&fileformat . ' ' . WebDevIconsGetFileFormatSymbol()) : ''
+endfunction
+
+let g:WebDevIconsUnicodeGlyphDoubleWidth = 0
+let g:WebDevIconsUnicodeDecorateFolderNodes = 1
+
+nnoremap <silent><C-e> :NERDTreeToggle<CR>
+let NERDTreeChDirMode = 2
+let g:NERDTreeDirArrowExpandable = '▸'
+let g:NERDTreeDirArrowCollapsible = '▾'
+let g:DevIconsEnableFoldersOpenClose = 1
+let g:webdevicons_conceal_nerdtree_brackets = 1
+
+let g:ale_linters = {
+  \ 'javascript': ['eslint']
+  \ }
+let g:ale_fixers = {
+  \ 'javascript': ['eslint']
+  \ }
+let g:ale_lint_on_text_changed = 1
+let g:ale_lint_on_save = 1
+let g:ale_fix_on_save = 1
+let g:ale_lint_delay = 500
 
 "カラースキーマ
 colorscheme iceberg
