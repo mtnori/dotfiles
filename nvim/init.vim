@@ -51,6 +51,9 @@ set expandtab "タブ入力を空白に変換
 set tabstop=2 "タブを何文字の空白に変換するか
 set shiftwidth=2 "自動インデント時に入力する空白の数
 
+"vv で行末まで選択
+vnoremap v ^$h
+
 " 検索関連
 " 大文字と小文字を区別しない
 set ignorecase
