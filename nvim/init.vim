@@ -137,6 +137,8 @@ Plug 'leafgarland/typescript-vim', { 'for': 'ts' }
 Plug 'fatih/vim-go', { 'for': 'go' }
 Plug 'rcmdnk/vim-markdown', { 'for': ['md', 'markdown'] }
 Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
+Plug 'junegunn/fzf', has('win32') ? {} : {'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
 call plug#end()
 
 filetype plugin indent on
@@ -277,3 +279,17 @@ nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list
 nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 
+let g:fzf_command_prefix = 'Fzf'
+if has('win32') || has('win64')
+  command! -bang -nargs=* FzfRg
+    \ call fzf#vim#grep(
+    \   'rg --column --line-number --no-heading --color=always --smart-case "'.<q-args>.'"', 1,
+    \   <bang>0)
+endif
+nnoremap <silent> <C-x>r :<C-u>call <SID>SearchRipgrep()<CR>
+function! s:SearchRipgrep()
+  let l:word = input("Search Word? ")
+  if l:word =~ "\s*"
+    execute ":FzfRg " . l:word
+  endif
+endfunction
