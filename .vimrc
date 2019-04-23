@@ -94,6 +94,7 @@ if dein#load_state(expand('~/vimfiles/dein'))
   call dein#add('tpope/vim-fugitive')
   call dein#add('hail2u/vim-css3-syntax')
   call dein#add('elmcast/elm-vim')
+  call dein#add('leafgarland/typescript-vim')
   call dein#end()
   call dein#save_state()
 endif
@@ -151,7 +152,8 @@ nnoremap <A-;> A;<ESC>
 inoremap <A-;> <ESC>A;<ESC>
 
 if has("win32") || has("win64")
-  let g:python3_host_prog = expand('~/AppData/Local/Programs/Python/Python35/python')
+  set pythonthreedll=C:/Users/noriyuki/AppData/Local/Programs/Python/Python37/python37.dll
+  let g:python3_host_prog = 'C:/Users/noriyuki/AppData/Local/Programs/Python/Python37/python'
   set rop=type:directx,renmode:5
 else
   let g:python3_host_prog = expand('/usr/bin/python')

@@ -1,0 +1,23 @@
+{
+  "suggest.noselect": false,
+  "suggest.preferCompleteThanJumpPlaceholder": true,
+  "tsserver.enableJavascript": false,
+  "eslint.autoFixOnSave": true,
+  "languageserver": {
+    "flow": {
+      "command": "${workspaceFolder}/node_modules/.bin/flow.cmd",
+      "args": ["lsp"],
+      "filetypes": ["javascript", "javascriptreact"],
+      "initializationOptions": {},
+      "requireRootPattern": true,
+      "settings": {},
+      "rootPatterns": [".flowconfig"]
+    },
+    "haskell": {
+      "command": "hie-wrapper",
+      "rootPatterns": [".stack.yaml", "cabal.config", "package.yaml"],
+      "filetypes": ["hs", "lhs", "haskell"],
+      "initializationOptions": {}
+    }
+  }
+}
