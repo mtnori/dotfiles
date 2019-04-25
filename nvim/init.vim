@@ -133,7 +133,8 @@ Plug 'othree/html5.vim', { 'for': ['html', 'js', 'jsx'] }
 Plug 'othree/javascript-libraries-syntax.vim', { 'for': ['js', 'jsx'] }
 Plug 'othree/es.next.syntax.vim', { 'for': ['js', 'jsx'] }
 Plug 'maxmellon/vim-jsx-pretty', { 'for': ['js', 'jsx'] }
-Plug 'leafgarland/typescript-vim', { 'for': 'ts' }
+Plug 'leafgarland/typescript-vim', { 'for': ['ts', 'tsx'] }
+Plug 'ianks/vim-tsx', { 'for': ['ts', 'tsx'] }
 Plug 'fatih/vim-go', { 'for': 'go' }
 Plug 'rcmdnk/vim-markdown', { 'for': ['md', 'markdown'] }
 Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
